@@ -51,10 +51,15 @@ void Denoise(const filesystem::path &inputDir, const filesystem::path &outputDir
 }
 
 int main() {
-    // Box
+    // box
     filesystem::path inputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/box/input");
     filesystem::path outputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/box/output");
     int frameNum = 20;
+
+    // pink room
+    // filesystem::path inputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/pink-room/input");
+    // filesystem::path outputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/pink-room/output");
+    // int frameNum = 80;
 
     /*
     // Pink room
