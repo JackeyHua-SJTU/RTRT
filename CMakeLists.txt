@@ -8,6 +8,7 @@ set (CMAKE_CXX_STANDARD 17)
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/ext
+    "/opt/homebrew/Cellar/libomp/18.1.3/include"
 )
 
 file(GLOB SOURCE_FILE
@@ -29,6 +30,7 @@ endforeach()
 ########################################
 
 # OpenMP
+set(CMAKE_PREFIX_PATH "/opt/homebrew/Cellar/libomp/18.1.3/")
 FIND_PACKAGE(OpenMP)
 if(OPENMP_FOUND)
     message("OPENMP FOUND")
@@ -38,5 +40,10 @@ if(OPENMP_FOUND)
 endif()
 
 ########################################
+link_directories("/opt/homebrew/Cellar/libomp/18.1.3/lib")
 
 add_executable(Denoise ${SOURCE_FILE})
+
+if (OPENMP_FOUND) 
+    target_link_libraries(Denoise omp)
+endif()
