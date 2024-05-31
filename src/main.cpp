@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include <filesystem>
 
 #include "denoiser.h"
 #include "util/image.h"
@@ -40,6 +41,7 @@ FrameInfo LoadFrameInfo(const filesystem::path &inputDir, const int &idx) {
 void Denoise(const filesystem::path &inputDir, const filesystem::path &outputDir,
              const int &frameNum) {
     Denoiser denoiser;
+    auto startTime = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < frameNum; i++) {
         std::cout << "Frame: " << i << std::endl;
         FrameInfo frameInfo = LoadFrameInfo(inputDir, i);
@@ -48,25 +50,24 @@ void Denoise(const filesystem::path &inputDir, const filesystem::path &outputDir
             (outputDir / ("result_" + std::to_string(i) + ".exr")).str();
         WriteFloat3Image(image, filename);
     }
+    auto endTime = std::chrono::high_resolution_clock::now();
+    
+    // 计算时间差
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+    std::cout << "Total time taken for denoising: " << duration.count() << " milliseconds" << std::endl;
 }
 
 int main() {
-    // box
-    filesystem::path inputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/box/input");
-    filesystem::path outputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/box/output");
-    int frameNum = 20;
+    // Box
+    // filesystem::path inputDir("../examples/box/input");
+    // filesystem::path outputDir("../examples/box/output");
+    // int frameNum = 20;
 
-    // pink room
-    // filesystem::path inputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/pink-room/input");
-    // filesystem::path outputDir("/Users/huazhendong/Desktop/vr/RealtimeDenoiser/examples/pink-room/output");
-    // int frameNum = 80;
 
-    /*
     // Pink room
-    filesystem::path inputDir("examples/pink-room/input");
-    filesystem::path outputDir("examples/pink-room/output");
+    filesystem::path inputDir("../examples/pink-room/input");
+    filesystem::path outputDir("../examples/pink-room/output");
     int frameNum = 80;
-    */
 
     Denoise(inputDir, outputDir, frameNum);
     return 0;
