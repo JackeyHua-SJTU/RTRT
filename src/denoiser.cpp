@@ -95,7 +95,7 @@ void Denoiser::TemporalAccumulation(const Buffer2D<Float3> &curFilteredColor) {
 //                     // std::cout << "dplane is " << d_plane << std::endl;
 //                     double exponential = - (d_pos / (2.0f * Sqr(sigma_p)) + d_color / (2.0f * Sqr(sigma_c)) + d_normal / (2.0f * Sqr(sigma_n)) + 
 //                                                 d_plane / (2.0f * Sqr(sigma_d)));
-//                     double w = std::exp(expo+nential);
+//                     double w = std::exp(exponential);
 //                     // std::cout << "weight is " << sum_weight << std::endl;
 //                     sum_weight += w;
 //                     sum_weight_val += frameInfo.m_beauty(vb, hb) * w;
@@ -113,14 +113,6 @@ inline float dot(const Float3 &a, const Float3 &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-// float Length(const Float3& vec) {
-//     return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-// }
-
-// Float3 Normalize(const Float3& vec) {
-//     float len = Length(vec);
-//     return len > 0 ? vec / len : vec;
-// }
 
 Buffer2D<Float3> Denoiser::Filter(const FrameInfo &frameInfo) {
     int height = frameInfo.m_beauty.m_height;
@@ -129,6 +121,7 @@ Buffer2D<Float3> Denoiser::Filter(const FrameInfo &frameInfo) {
 
     // Define the kernel for the A-Trous Wavelet Transform
     std::vector<float> kernel = {1.f / 16, 1.f / 4, 3.f / 8, 1.f / 4, 1.f / 16};
+    // std::vector<float> kernel = {1.f / 4, 1.f / 2, 1.f / 4};
 
     // Initialize buffers for each level of the wavelet transform
     Buffer2D<Float3> currentImage = frameInfo.m_beauty;
